@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia de la Independencia de México</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            margin: 5px 0;
+            padding: 10px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .options button:hover {
+            background: #2980b9;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container animate__animated animate__fadeIn">
+        <h1>Trivia: Independencia de México</h1>
+        <div id="quiz">
+            <p class="question" id="question"></p>
+            <div class="options" id="options"></div>
+        </div>
+        <button id="next" style="display:none;">Siguiente</button>
+        <p id="result"></p>
+    </div>
+    
+    <script>
+        const questions = [
+            { question: "¿En qué año comenzó la Independencia de México?", options: ["1810", "1821", "1808", "1910"], answer: "1810" },
+            { question: "¿Quién dio el Grito de Independencia?", options: ["José María Morelos", "Miguel Hidalgo", "Vicente Guerrero", "Agustín de Iturbide"], answer: "Miguel Hidalgo" },
+            { question: "¿Qué documento marcó el fin de la lucha independentista?", options: ["Tratado de Córdoba", "Plan de Iguala", "Constitución de Apatzingán", "Acta de Independencia"], answer: "Tratado de Córdoba" },
+            { question: "¿Quién fue el líder insurgente que continuó la lucha tras la muerte de Hidalgo?", options: ["Guadalupe Victoria", "José María Morelos", "Vicente Guerrero", "Agustín de Iturbide"], answer: "José María Morelos" },
+            { question: "¿Qué ejército entró triunfante a la Ciudad de México en 1821?", options: ["Ejército Trigarante", "Ejército Insurgente", "Realistas", "Los Dragones de la Reina"], answer: "Ejército Trigarante" },
+            { question: "¿Qué colores tenía la bandera del Ejército Trigarante?", options: ["Rojo, blanco y verde", "Azul, blanco y rojo", "Verde, blanco y rojo", "Negro y dorado"], answer: "Rojo, blanco y verde" },
+            { question: "¿Quién fue el primer emperador de México?", options: ["Vicente Guerrero", "Benito Juárez", "Agustín de Iturbide", "Antonio López de Santa Anna"], answer: "Agustín de Iturbide" },
+            { question: "¿Cómo se llamaba el periódico de José María Morelos?", options: ["El Despertador Americano", "El Correo de México", "El Ilustrador Nacional", "El Ilustrador Americano"], answer: "El Ilustrador Americano" },
+            { question: "¿Qué personaje fue conocido como 'El Siervo de la Nación'?", options: ["Ignacio Allende", "Miguel Hidalgo", "José María Morelos", "Guadalupe Victoria"], answer: "José María Morelos" },
+            { question: "¿En qué fecha se celebra el Grito de Independencia en México?", options: ["15 de septiembre", "16 de septiembre", "20 de noviembre", "5 de mayo"], answer: "15 de septiembre" }
+        ];
+        
+        let currentQuestion = 0;
+        let score = 0;
+        
+        function loadQuestion() {
+            document.getElementById("question").textContent = questions[currentQuestion].question;
+            const optionsContainer = document.getElementById("options");
+            optionsContainer.innerHTML = "";
+            
+            questions[currentQuestion].options.forEach(option => {
+                const button = document.createElement("button");
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option);
+                optionsContainer.appendChild(button);
+            });
+        }
+        
+        function checkAnswer(answer) {
+            if (answer === questions[currentQuestion].answer) {
+                score++;
+            }
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+        
+        function showResult() {
+            let message = "";
+            if (score === 10) {
+                message = "¡Excelente! Eres un experto en la Independencia de México.";
+            } else if (score >= 7) {
+                message = "¡Muy bien! Tienes un buen conocimiento de la historia.";
+            } else if (score >= 4) {
+                message = "Puedes mejorar. ¡Sigue aprendiendo!";
+            } else {
+                message = "Sigue estudiando la historia de México.";
+            }
+            document.getElementById("quiz").style.display = "none";
+            document.getElementById("result").textContent = `Tu puntuación: ${score}/10. ${message}`;
+        }
+        
+        loadQuestion();
+    </script>
+</body>
+</html>
